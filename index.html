@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TG</title>
+</head>
+<body>
+    <h2 id="timeFromStart"></h2>
+    <h2 id="timeToEnd"></h2>
+<script>
+    var start = new Date().setHours(19,10,0,0);
+    var end = new Date().setHours(20,10,0,0);
+    var fromStartIndic = document.getElementById('timeFromStart');
+    var toEndIndic = document.getElementById('timeToEnd');
+
+    function updateTime() {
+        var now = new Date();
+        getTimeFromStart(now);
+        getTimeToEnd(now);
+    }
+
+    function getTimeToEnd(now) {
+        toEndIndic.innerText = toMinutesSeconds(end - now);
+    }
+
+    function getTimeFromStart(now) {
+        fromStartIndic.innerText = toMinutesSeconds(now - start);
+    }
+
+    function toMinutesSeconds(time) {
+        var totalSeconds = Math.abs(time / 1000);
+        var minutes =  Math.floor(totalSeconds / 60);
+        var seconds = Math.floor(totalSeconds - (minutes * 60));
+        return `${minutes}m ${seconds < 10 ? '0' + seconds : seconds}s`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
+</body>
+</html>
