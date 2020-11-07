@@ -3,20 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>TG</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+<div class="wrapper">
+    <h1>TG</h1>
     <h2 id="timeFromStart"></h2>
+    <div><input type="number" min="14" max="25" value="18" id="paragraphNumber"/> / paragraphe : <span id="paragraph"></span></div>
     <h2 id="timeToEnd"></h2>
+</div>
 <script>
+    var now = new Date();
     var start = new Date().setHours(19,10,0,0);
     var end = new Date().setHours(20,10,0,0);
     var fromStartIndic = document.getElementById('timeFromStart');
     var toEndIndic = document.getElementById('timeToEnd');
+    var paragraphIndic = document.getElementById('paragraph');
+    var paragraphNumber = document.getElementById('paragraphNumber');
 
     function updateTime() {
-        var now = new Date();
+        now = new Date();
         getTimeFromStart(now);
         getTimeToEnd(now);
+        updateParagraph(now);
     }
 
     function getTimeToEnd(now) {
@@ -27,12 +48,23 @@
         fromStartIndic.innerText = toMinutesSeconds(now - start);
     }
 
-    function toMinutesSeconds(time) {
-        var totalSeconds = Math.abs(time / 1000);
-        var minutes =  Math.floor(totalSeconds / 60);
-        var seconds = Math.floor(totalSeconds - (minutes * 60));
-        return `${minutes}m ${seconds < 10 ? '0' + seconds : seconds}s`;
+    function updateParagraph() {
+        var minutes = getMinutes(now - start);
+        if (minutes >= 55) {
+            paragraphIndic.innerText = 'révision';
+        } else {
+            paragraphIndic.innerText = Math.ceil((paragraphNumber.value * getMinutes(now - start)) / 60) + 1;
+        }
     }
+
+    function toMinutesSeconds(time) {
+        var seconds = getSeconds(time);
+        return `${getMinutes(time)}m ${seconds < 10 ? '0' + seconds : seconds}s`;
+    }
+
+    function getTotalSeconds(time) {return Math.abs(time / 1000);}
+    function getMinutes(time) {return Math.floor(getTotalSeconds(time) / 60);}
+    function getSeconds(time) {return Math.floor(getTotalSeconds(time) - (getMinutes(time) * 60));}
 
     updateTime();
     setInterval(updateTime, 1000);
