@@ -35,9 +35,16 @@
 
     function updateTime() {
         now = new Date();
-        getTimeFromStart(now);
-        getTimeToEnd(now);
-        updateParagraph(now);
+
+        if (now < start) {
+            fromStartIndic.innerText = "Début dans " + toMinutesSeconds(start - now);
+            toEndIndic.innerText = null;
+            paragraphIndic.innerText = "-"
+        } else {
+            getTimeFromStart(now);
+            getTimeToEnd(now);
+            updateParagraph(now);
+        }
     }
 
     function getTimeToEnd(now) {
