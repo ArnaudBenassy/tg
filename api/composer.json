@@ -1,0 +1,16 @@
+{
+  "name": "vendor_name/api",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "abena",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "google/apiclient": "^2.12.1",
+    "ext-dom": "*"
+  }
+}
